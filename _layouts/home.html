@@ -1,53 +1,49 @@
 ---
-layout: splash
+layout: default
 ---
 
 {{ content }}
 
 
 {% if site.posts.size > 0 %}
-  <h1 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "" }}</h1>
-  {% for post in site.posts limit:5 %}
-    {% if post.unlisted != true %}
-      {% include archive-single.html %}
-    {% endif %}
+  {% for post in site.posts %}
+
+    <div id="main" role="main">
+
+      <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+        {% if post.title %}<meta itemprop="headline" content="{{ post.title | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
+        {% if post.excerpt %}<meta itemprop="description" content="{{ post.excerpt | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
+        {% if post.date %}<meta itemprop="datePublished" content="{{ post.date | date: "%B %d, %Y" }}">{% endif %}
+        {% if post.last_modified_at %}<meta itemprop="dateModified" content="{{ post.last_modified_at | date: "%B %d, %Y" }}">{% endif %}
+
+        <div class="page__inner-wrap">
+
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">{{ post.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>
+          </header>
+
+          <section class="page__content" itemprop="text">
+            {{ post.content }}
+          </section>
+
+          <footer class="page__meta">
+            {% if site.data.ui-text[site.locale].meta_label %}
+              <h4 class="page__meta-title">{{ site.data.ui-text[site.locale].meta_label }}</h4>
+            {% endif %}
+            {% include page__taxonomy.html %}
+            {% if post.last_modified_at %}
+              <p class="page__date">{{ site.data.ui-text[site.locale].date_label | default: "" }} <time datetime="{{ post.last_modified_at | date: "%Y-%m-%d" }}">{{ post.last_modified_at | date: "%B %Y" }}</time></p>
+            {% elsif post.date %}
+              <p class="page__date">{{ site.data.ui-text[site.locale].date_label | default: "" }} <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %Y" }}</time></p>
+            {% endif %}
+          </footer>
+
+          {% if post.share %}{% include social-share.html %}{% endif %}
+
+        </div>
+
+      </article>
+  </div>
+
   {% endfor %}
-  <p align='right'><a href="{{ site.baseurl }}/texts/page2/">All texts...</a></p>
 {% endif %}
-
-{% include separators.html type='blank' %}
-
-<h1 class="archive__subtitle">Projects</h1>
-  {% for project in site.projects.projects  %}
-  <div class="{{ include.type | default: "list" }}__item">
-    <h2 class="archive__item-title" itemprop="headline">
-    <a href="{{ project.url }}">{{ project.title }}&nbsp;&nbsp;<i class="{{ project.icon }}" aria-hidden="true"></i></a>
-    </h2>
-    <p class="archive__item-excerpt" itemprop="description">{{ project.pitch }}</p>
-  </div>
-  {% endfor %}
-
-{% include separators.html type='blank' %}
-
-<!-- <h1 class="archive__subtitle">Code</h1> -->
-<!--   {% for project in site.projects.code  %} -->
-<!--   <div class="{{ include.type | default: "list" }}__item"> -->
-<!--     <h2 class="archive__item-title" itemprop="headline"> -->
-<!--     <a href="{{ project.url }}">{{ project.title }}&nbsp;&nbsp;<i class="{{ project.icon }}" aria-hidden="true"></i></a> -->
-<!--     </h2> -->
-<!--     <p class="archive__item-excerpt" itemprop="description">{{ project.pitch }}</p> -->
-<!--   </div> -->
-<!--   {% endfor %} -->
-
-
-{% include separators.html type='blank' %}
-
-<h1 class="archive__subtitle">Other</h1>
-  {% for project in site.projects.other  %}
-  <div class="{{ include.type | default: "list" }}__item">
-    <h2 class="archive__item-title" itemprop="headline">
-    <a href="{{ project.url }}">{{ project.title }}&nbsp;&nbsp;<i class="{{ project.icon }}" aria-hidden="true"></i></a>
-    </h2>
-    <p class="archive__item-excerpt" itemprop="description">{{ project.pitch }}</p>
-  </div>
-  {% endfor %}
