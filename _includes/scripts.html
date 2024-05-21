@@ -1,12 +1,11 @@
 <script src="{{ '/assets/js/main.min.js' | relative_url }}"></script>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
-{% if page.languages %}
-  <script>
-   toggleLang();
-   $('.lang-link')[0].addEventListener('click', toggleLang);
-  </script>
-{% endif %}
+<script>
+ console.log('about to toggle');
+ toggleLang();
+ $('.lang-link')[0].addEventListener('click', toggleLang);
+</script>
 
 {% if site.footer_scripts %}
   {% for script in site.footer_scripts %}
