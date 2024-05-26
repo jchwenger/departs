@@ -541,3 +541,11 @@ function draw() {
   renderPlayButton();
   if (ctx.delay > 0) ctx.delay -= 1;
 }
+
+function keyPressed() {
+  if (key === ' ') {
+    let fs = fullscreen();
+    fullscreen(!fs);
+    // console.log('fullscreen:', fs);
+  }
+}
